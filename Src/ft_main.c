@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:52:14 by alex              #+#    #+#             */
-/*   Updated: 2025/01/03 01:41:47 by alex             ###   ########.fr       */
+/*   Updated: 2025/01/03 17:11:12 by alcarril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,44 +15,27 @@
 int main(int argz, char **argv)
 {
     //declarara ciones algunas se podran hacer dentro de otras funciones si aqui gfaltan lineas
-    int src_fd;
+    int fd_src;
     pid_t pid;
     int pipe_fd[2];
+	int begin;
     
-    //Control de errores de argv
+	
+	begin = 1;
     if (argz < 4)
     {
-        perror (strerror(errno));
-        return(0);
+    	return(perror(strerror(errno), 0));
     }
-    //crear el pipe definir los valores de pipe_fd
-    if (pipe(pipe_fd));
-    {
-        perror(strerror(errno));
-        return (0);
-    }
-    
-    //abrir el archivo fuente
-        // compribra  el acceso al archivo fuente //mirar a ver si tengoq ue poner al ruta ompleta porque el archivo funete puede no estar en esta carpeta
-    if (access(argv[1], F_OK | R_OK ))
-    {
-        perror (strerror(errno));
-        return (0);
-    }
-    src_fd = open(argv[1], O_RDONLY);
-    if (src_fd < 0)
-        return (0);
-        
-    //redirigir la entrada del procesos hijo (cliente) al fd_src (servidor)
-    if(!dup2(src_fd, STDIN_FILENO))
-    {
-        perror(strerror(errno));
-        close(fd);
-        return(0);
-    }
-    
+	fd_src = tunel_src(argv[1], fd_src);
+	if (fd_src < 0)
+		return(perror(strerror(errno), 0));
+	while (begin < (argv))
+	{
+		link_process(argz, fd_src, pid, pipe_fd);
+		begin++;
+	}
+	
     //////////////////////////todo esto en un bucle que se vaya moviendo entre los comandos y segun una variable (para poder hacer el heredoc)//////////////////////////////////////
-
     pid = fork(void);
     if (pid < 0)
     {
